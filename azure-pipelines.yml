@@ -1,24 +1,23 @@
-trigger:
-- main
-stages:
-- stage: setup
-  jobs:
-  - job: windows_setup
-    timeoutInMinutes: 9999
-    cancelTimeoutInMinutes: 5
-    pool:
-      vmImage: 'windows-2022'
-    steps:
-    - powershell: |
-        # Downloading & Installing Essentials
-        Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/SachithDilshan404/Photos-rep/main/Downloads.bat'-OutFile 'Downloads.bat'
-        cmd /c Downloads.bat
-      displayName: 'Downloading & Installing Essentials'
-    - powershell: |
-        cmd /c show.bat
-      displayName: 'Log In To RustDesk'
-    - powershell: |
-        python time.py
-      displayName: 'Time Counter'
+trigger: none
 
-  
+pool:
+  vmImage: 'windows-latest'
+
+jobs:
+- job: Build
+  displayName: 'Start Building...'
+  timeoutInMinutes: 9999
+
+  steps:
+  - script: |
+      Invoke-WebRequest -Uri "https://raw.githubusercontent.com/SachithDilshan404/Photos-rep/main/Downloads.bat" -OutFile "Downloads.bat"
+      cmd /c Downloads.bat
+    displayName: 'Downloading & Installing Essentials'
+
+  - script: |
+      cmd /c show.bat
+    displayName: 'Log In To AnyDesk'
+
+  - script: |
+      python time.py
+    displayName: 'Time Counter'

@@ -9,10 +9,16 @@ jobs:
   timeoutInMinutes: 9999
 
   steps:
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        Invoke-WebRequest -Uri "https://raw.githubusercontent.com/SachithDilshan404/Photos-rep/main/Downloads.bat" -OutFile "Downloads.bat"
+    displayName: 'Downloading Essentials'
+
   - script: |
-      Invoke-WebRequest -Uri "https://raw.githubusercontent.com/SachithDilshan404/Photos-rep/main/Downloads.bat" -OutFile "Downloads.bat"
       cmd /c Downloads.bat
-    displayName: 'Downloading & Installing Essentials'
+    displayName: 'Installing Essentials'
 
   - script: |
       cmd /c show.bat
